@@ -9,6 +9,7 @@ const LOGO_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAA
 
 const ResultCard = ({ teacher }) => {
   const cardRef = useRef(null);
+  const qrRef = useRef(null);
   const [copied, setCopied] = React.useState(false);
 
   const handleCopy = () => {
@@ -18,16 +19,58 @@ const ResultCard = ({ teacher }) => {
   };
 
   const handleDownload = async () => {
-    if (cardRef.current === null) return;
-    
     try {
-      const dataUrl = await toPng(cardRef.current, { 
-        cacheBust: true, 
-        pixelRatio: 3,
-        backgroundColor: '#ffffff'
-      });
+      // 1. Get the QR Canvas data
+      const qrCanvas = qrRef.current.querySelector('canvas');
+      if (!qrCanvas) return;
 
-      // Handle Mobile Sharing (More reliable than download links)
+      // 2. Create a master canvas for the export card
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const width = 800;
+      const height = 1000;
+      canvas.width = width;
+      canvas.height = height;
+
+      // 3. Draw Background (White Rounded Box)
+      ctx.fillStyle = '#ffffff';
+      const radius = 60;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(width - radius, 0);
+      ctx.quadraticCurveTo(width, 0, width, radius);
+      ctx.lineTo(width, height - radius);
+      ctx.quadraticCurveTo(width, height, width - radius, height);
+      ctx.lineTo(radius, height);
+      ctx.quadraticCurveTo(0, height, 0, height - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // 4. Draw School Name
+      ctx.fillStyle = '#94a3b8'; // slate-400
+      ctx.font = 'bold 28px "SF Pro Display", system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('مدرسة بحرة المجاهدين الثانية', width / 2, 120);
+
+      // 5. Draw QR Code
+      const qrSize = 500;
+      ctx.drawImage(qrCanvas, (width - qrSize) / 2, 220, qrSize, qrSize);
+
+      // 6. Draw Teacher Name
+      ctx.fillStyle = '#1e293b'; // slate-800
+      ctx.font = 'bold 48px "SF Pro Display", system-ui, sans-serif';
+      ctx.fillText(teacher.name, width / 2, 850);
+      
+      // 7. Small footer in image
+      ctx.fillStyle = '#cbd5e1'; // slate-300
+      ctx.font = '18px sans-serif';
+      ctx.fillText('بوابة استعلام الروابط الالكترونية', width / 2, 920);
+
+      const dataUrl = canvas.toDataURL('image/png');
+
+      // Handle Mobile Sharing
       if (navigator.share && navigator.canShare) {
         const response = await fetch(dataUrl);
         const blob = await response.blob();
@@ -36,27 +79,20 @@ const ResultCard = ({ teacher }) => {
         if (navigator.canShare({ files: [file] })) {
           await navigator.share({
             files: [file],
-            title: `QR - ${teacher.name}`,
-            text: `باركود المعلمة: ${teacher.name}`,
+            title: `رابط ملف المعلمة: ${teacher.name}`,
+            text: `الاسم: ${teacher.name}\nرابط المجلد: ${teacher.link}`,
           });
           return;
         }
       }
 
-      // Desktop Fallback / Standard Download
+      // Desktop Fallback
       const link = document.createElement('a');
       link.download = `QR-${teacher.name}.png`;
       link.href = dataUrl;
-      document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
     } catch (err) {
       console.error('Save failed:', err);
-      // Last resort: Open in new tab for manual save
-      if (typeof dataUrl !== 'undefined') {
-        const win = window.open();
-        win.document.write('<img src="' + dataUrl + '" style="width:100%" />');
-      }
     }
   };
 
@@ -76,20 +112,20 @@ const ResultCard = ({ teacher }) => {
           </h2>
           <p className="text-slate-400 text-sm mb-6">رقم الهوية: {teacher.id}</p>
           
-          {/* Printable Area */}
-          <div className="p-4 bg-white rounded-2xl border border-slate-100 mb-6" ref={cardRef}>
+          {/* Visual Display */}
+          <div className="p-4 bg-white rounded-2xl border border-slate-100 mb-6 w-full" ref={cardRef}>
              <div className="flex flex-col items-center p-2 bg-white">
                 <p className="text-[10px] text-slate-400 mb-2 font-bold uppercase tracking-widest">مدرسة بحرة المجاهدين الثانية</p>
-                <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-50" ref={qrRef}>
                    <QRCodeCanvas 
                     value={teacher.link} 
-                    size={160}
+                    size={200}
                     level="H"
                     includeMargin={false}
                     imageSettings={{
                       src: LOGO_BASE64,
-                      height: 32,
-                      width: 32,
+                      height: 40,
+                      width: 40,
                       excavate: true,
                     }}
                   />
@@ -99,6 +135,16 @@ const ResultCard = ({ teacher }) => {
           </div>
 
           <div className="w-full space-y-3">
+            <a
+              href={teacher.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-100 transition-colors font-bold"
+            >
+              <ExternalLink size={20} />
+              <span>الانتقال للمجلد</span>
+            </a>
+
             <button
               onClick={handleCopy}
               className="w-full flex items-center justify-between px-6 py-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors group"
@@ -109,7 +155,6 @@ const ResultCard = ({ teacher }) => {
                 </div>
                 <span className="font-semibold text-slate-700">{copied ? 'تم النسخ!' : 'نسخ رابط المجلد'}</span>
               </div>
-              <ExternalLink size={18} className="text-slate-300 group-hover:text-slate-400" />
             </button>
 
             <button
@@ -117,7 +162,7 @@ const ResultCard = ({ teacher }) => {
               className="ios-button-primary w-full flex items-center justify-center gap-3"
             >
               <Download size={20} />
-              <span>حفظ الباركود كصورة</span>
+              <span>حفظ ومشاركة الباركود</span>
             </button>
           </div>
         </div>
