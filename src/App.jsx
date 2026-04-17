@@ -8,9 +8,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 function App() {
   const [query, setQuery] = useState('');
   
+  const normalizeQuery = (val) => {
+    if (!val) return '';
+    return val.toString()
+      .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)) // Standard Arabic digits
+      .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)) // Eastern Arabic digits
+      .replace(/[^\d]/g, '')
+      .trim();
+  };
+
   const foundTeacher = useMemo(() => {
-    if (query.length < 5) return null;
-    return employees.find(e => e.id === query.trim()) || null;
+    const cleanQuery = normalizeQuery(query);
+    if (cleanQuery.length < 5) return null;
+    return employees.find(e => e.id === cleanQuery) || null;
   }, [query]);
 
   return (
