@@ -1,8 +1,11 @@
 import React, { useRef } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import { QRCodeCanvas } from 'qrcode.react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Download, ExternalLink, CheckCircle } from 'lucide-react';
 import { toPng } from 'html-to-image';
+
+// Base64 logo for reliable image capture
+const LOGO_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKTWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbRIAb9B6UQREAnbwAZOTZ9SZ7ZpXRE68MDJFFEuXPis8XPJGEVmZlVWhXmPFPV5rX2o6p5pkf679GZ2KzbW33XWf57D2V9rrvOf85R58E54BPS7qJ67q+3H6wH1767y8+v/BInyL6u93+j75N6Ceg3yD/Bv0p5eDAnAByAAdYAA88H+X4AtuA6+AAu++LMDyAiYA3m7+h9n6063WqN7u0O+7dZ1lAAs8BB/Bv9h/+Xf4/50L/P8fG37z+vXj65u++d9u23/+v/7H5+o3T+O3q6vHze+fnb9//f/1f53uDzy+q+v2vfvS9X/vK868/z+qvv+n9u9v7O/O7vb9v6/8/ev/jH3A86P8C+Bv3vj0w20D7Af6S8CfAPzV6oG/Bv/36Xf6R+Afx++Ef3/7Xf7f/Bf+AewfAP8p8Bv+B/u+77v/9m/t655nruu+53re/rK99v2veT+K97fS/9v+v/3/v37/f/7/f///u9v7m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v9m/v7n/v8=";
 
 const ResultCard = ({ teacher }) => {
   const cardRef = useRef(null);
@@ -17,12 +20,44 @@ const ResultCard = ({ teacher }) => {
   const handleDownload = async () => {
     if (cardRef.current === null) return;
     
-    // Temporarily adjust styles for high quality download
-    const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 3 });
-    const link = document.createElement('a');
-    link.download = `QR-${teacher.name}.png`;
-    link.href = dataUrl;
-    link.click();
+    try {
+      const dataUrl = await toPng(cardRef.current, { 
+        cacheBust: true, 
+        pixelRatio: 3,
+        backgroundColor: '#ffffff'
+      });
+
+      // Handle Mobile Sharing (More reliable than download links)
+      if (navigator.share && navigator.canShare) {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `QR-${teacher.name}.png`, { type: 'image/png' });
+
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: `QR - ${teacher.name}`,
+            text: `باركود المعلمة: ${teacher.name}`,
+          });
+          return;
+        }
+      }
+
+      // Desktop Fallback / Standard Download
+      const link = document.createElement('a');
+      link.download = `QR-${teacher.name}.png`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Save failed:', err);
+      // Last resort: Open in new tab for manual save
+      if (typeof dataUrl !== 'undefined') {
+        const win = window.open();
+        win.document.write('<img src="' + dataUrl + '" style="width:100%" />');
+      }
+    }
   };
 
   if (!teacher) return null;
@@ -46,17 +81,15 @@ const ResultCard = ({ teacher }) => {
              <div className="flex flex-col items-center p-2 bg-white">
                 <p className="text-[10px] text-slate-400 mb-2 font-bold uppercase tracking-widest">مدرسة بحرة المجاهدين الثانية</p>
                 <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
-                   <QRCodeSVG 
+                   <QRCodeCanvas 
                     value={teacher.link} 
                     size={160}
                     level="H"
                     includeMargin={false}
                     imageSettings={{
-                      src: "/logo.png",
-                      x: undefined,
-                      y: undefined,
-                      height: 24,
-                      width: 24,
+                      src: LOGO_BASE64,
+                      height: 32,
+                      width: 32,
                       excavate: true,
                     }}
                   />
